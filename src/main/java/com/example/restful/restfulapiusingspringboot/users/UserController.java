@@ -3,6 +3,7 @@ package com.example.restful.restfulapiusingspringboot.users;
 import java.net.URI;
 import java.util.List;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,9 +31,17 @@ public class UserController {
 
     // GET request to retrieve a specific user based on ID
     @GetMapping(path = "/users/{id}")
-    public Users getUser(@PathVariable Integer id) {
+    public Users getUser(@PathVariable Integer id) throws UsersNotFoundException {
         // Delegate the task of finding a user by ID to the UserDaoService
-        return userDaoService.findOneById(id);
+        Users user = userDaoService.findOneById(id);
+
+        // Check if the user exists
+        if (user == null) {
+            // If not found, throw a custom UsersNotFoundException
+            throw new UsersNotFoundException("id: " + id);
+        }
+
+        return user;
     }
 
     // POST request to create a new user
