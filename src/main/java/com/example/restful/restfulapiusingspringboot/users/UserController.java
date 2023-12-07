@@ -3,6 +3,7 @@ package com.example.restful.restfulapiusingspringboot.users;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -19,4 +20,11 @@ public class UserController {
 	public List<Users> getUsers(){
 		return userDaoService.findAll();
 	}
+	
+	@GetMapping(path = "/users/id/{id}")
+	public Users getUsers(@PathVariable Integer id){
+		return userDaoService.findOneById(id);
+	}
+	
+	
 }
