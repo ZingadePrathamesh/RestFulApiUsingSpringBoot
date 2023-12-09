@@ -3,14 +3,16 @@ package com.example.restful.restfulapiusingspringboot.users;
 import java.net.URI;
 import java.util.List;
 
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import jakarta.validation.Valid;
 
 @RestController
 public class UserController {
@@ -46,7 +48,7 @@ public class UserController {
 
     // POST request to create a new user
     @PostMapping(path = "/users")
-    public ResponseEntity<Users> postUsers(@RequestBody Users user) {
+    public ResponseEntity<Users> postUsers(@RequestBody @Valid Users user) {
         // Save the new user using the UserDaoService
         Users savedUser = userDaoService.save(user);
 
@@ -58,5 +60,15 @@ public class UserController {
 
         // Return a 201 Created response with the location of the new user
         return ResponseEntity.created(location).build();
+    }
+    
+    @DeleteMapping(path = "/users/{id}")
+    public ResponseEntity<Users> deleteUserById(@PathVariable Integer id) {
+    	userDaoService.removeById(id);
+    	
+    	URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+    			.buildAndExpand(id).toUri();
+    	
+    	return ResponseEntity.created(location).build();
     }
 }

@@ -2,10 +2,15 @@ package com.example.restful.restfulapiusingspringboot.users;
 
 import java.time.LocalDate;
 
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
+
 public class Users {
 
 	private Integer id;
+	@Size(min = 2, message = "Enter atleast 2 Characters in name.")
 	private String name;
+	@Past(message = "Date must be from the past")
 	private LocalDate birthDate;
 	
 	
