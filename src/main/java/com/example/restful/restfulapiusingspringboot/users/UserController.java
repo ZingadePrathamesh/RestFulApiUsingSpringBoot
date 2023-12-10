@@ -33,7 +33,7 @@ public class UserController {
 
     // GET request to retrieve a specific user based on ID
     @GetMapping(path = "/users/{id}")
-    public Users getUser(@PathVariable Integer id) throws UsersNotFoundException {
+    public Users getUserById(@PathVariable Integer id) throws UsersNotFoundException {
         // Delegate the task of finding a user by ID to the UserDaoService
         Users user = userDaoService.findOneById(id);
 
