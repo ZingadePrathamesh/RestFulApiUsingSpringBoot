@@ -52,5 +52,4 @@ public class VersioningPerson2 {
 		return new PersonV2(new Name("Sanmay" ,"Godbole"), 21);
 	}
 	
-	
 }

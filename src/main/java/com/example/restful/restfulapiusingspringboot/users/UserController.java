@@ -3,6 +3,9 @@ package com.example.restful.restfulapiusingspringboot.users;
 import java.net.URI;
 import java.util.List;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +36,7 @@ public class UserController {
 
     // GET request to retrieve a specific user based on ID
     @GetMapping(path = "/users/{id}")
-    public Users getUserById(@PathVariable Integer id) throws UsersNotFoundException {
+    public EntityModel<Users> getUserById(@PathVariable Integer id) throws UsersNotFoundException {
         // Delegate the task of finding a user by ID to the UserDaoService
         Users user = userDaoService.findOneById(id);
 
@@ -43,7 +46,10 @@ public class UserController {
             throw new UsersNotFoundException("id: " + id);
         }
 
-        return user;
+		EntityModel<Users> entityModel = EntityModel.of(user);
+		WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).getUsers());
+		entityModel.add(link.withRel("All-Users"));
+		return entityModel  ;
     }
 
     // POST request to create a new user
