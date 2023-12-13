@@ -8,6 +8,7 @@ public class FilterBeanExample {
 	private String field1;
 	private String field2;
 	private String field3;
+	
 	public FilterBeanExample(String field1, String field2, String field3) {
 		super();
 		this.field1 = field1;
@@ -32,6 +33,7 @@ public class FilterBeanExample {
 	public void setField3(String field3) {
 		this.field3 = field3;
 	}
+	
 	@Override
 	public String toString() {
 		return "FilterBeanExample [field1=" + field1 + ", field2=" + field2 + ", field3=" + field3 + "]";
