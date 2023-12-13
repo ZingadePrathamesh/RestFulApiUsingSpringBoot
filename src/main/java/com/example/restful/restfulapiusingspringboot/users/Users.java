@@ -2,15 +2,21 @@ package com.example.restful.restfulapiusingspringboot.users;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
+
 
 public class Users {
 
 	private Integer id;
+
 	@Size(min = 2, message = "Enter atleast 2 Characters in name.")
+	@JsonProperty("user_name")
 	private String name;
 	@Past(message = "Date must be from the past")
+	@JsonProperty("date_of_birth")
 	private LocalDate birthDate;
 	
 	
