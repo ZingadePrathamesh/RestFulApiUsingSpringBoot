@@ -2,10 +2,10 @@ package com.example.restful.restfulapiusingspringboot.post;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.restful.restfulapiusingspringboot.jpa.UsersJpaRepository;
@@ -33,6 +33,21 @@ public class PostController {
 		if(user.isEmpty()) throw new UsersNotFoundException("id:" + id);
 		
 		return user.get().getPosts();
+	}
+	
+	@GetMapping(path = "/jpa/users/{user_id}/posts/{post_id}")
+	public Post getPostById(@PathVariable Integer user_id, @PathVariable Integer post_id) {
+		Optional<Users> user = usersJpaRepository.findById(user_id);
+		
+		if(user.isEmpty()) throw new UsersNotFoundException("id:" + user_id);
+		
+		List<Post> posts = user.get().getPosts();
+		
+		Predicate<? super Post> predicate= post -> post.getPostId().equals(post_id);
+		Post post = posts.stream().filter(predicate).findFirst().orElse(null);
+		if(post != null) return post;
+		else
+			throw new PostNotFoundException("id: " + post_id);
 	}
 	
 }
