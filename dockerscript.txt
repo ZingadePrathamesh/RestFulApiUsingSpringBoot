@@ -7,6 +7,12 @@ docker run --detach
 --publish 3308:3306 mysql:8-oracle
 
 
+\connect social-media-user@localhost:3308
+dummypassword
+\use social-media-database
+\sql
+
+
 posting format:
 {
 "id": 1001,
