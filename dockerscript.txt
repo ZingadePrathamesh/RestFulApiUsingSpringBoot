@@ -1,10 +1,12 @@
 docker run --detach 
 --env MYSQL_ROOT_PASSWORD=dummypassword 
---env MYSQL_USER=social-media-user 
---env MYSQL_PASSWORD=dummypassword 
---env MYSQL_DATABASE=social-media-database 
+--env MYSQL_USER=socialmedia 
+--env MYSQL_PASSWORD=dummy 
+--env MYSQL_DATABASE=socialmediadatabase 
 --name mysql_restapi 
 --publish 3308:3306 mysql:8-oracle
+
+docker run --detach --env MYSQL_ROOT_PASSWORD=dummypassword --env MYSQL_USER=socialmedia --env MYSQL_PASSWORD=dummy --env MYSQL_DATABASE=socialmediadatabase --name mysql_restapi --publish 3308:3306 mysql:8-oracle
 
 
 \connect social-media-user@localhost:3308
