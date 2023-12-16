@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -70,6 +71,15 @@ public class PostController {
 				.path("/{id}").buildAndExpand(post.getPostId()).toUri();
 		
 		return ResponseEntity.created(location).build();
+	}
+	
+	@DeleteMapping(path =  "/jpa/users/{user_id}/posts/{post_id}")
+	public void deletePostById(@PathVariable Integer user_id, @PathVariable Integer post_id) {
+		
+		Optional<Users> user = usersJpaRepository.findById(user_id);
+		if(user.isEmpty()) throw new UsersNotFoundException("id: " + user_id);
+		
+		postJPARepository.deleteById(post_id);
 	}
 	
 }
